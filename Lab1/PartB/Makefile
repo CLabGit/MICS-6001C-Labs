@@ -45,13 +45,13 @@ EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/complex_matmul.xclbin emconfig
+all: check-platform check-vitis $(EXECUTABLE) $(BUILD_DIR)/complex_matmul.xclbin emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis check-device $(BUILD_DIR)/complex_matmul.xclbin
+build: check-vitis $(BUILD_DIR)/complex_matmul.xclbin
 
 .PHONY: xclbin
 xclbin: build
