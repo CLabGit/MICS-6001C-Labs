@@ -1,8 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Course:      ECE8893 - Parallel Programming for FPGAs
 // Filename:    complex.h
 // Description: Header file for complex matrix multiplication
-//
 // Note:        DO NOT MODIFY THIS CODE!
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __COMPLEX_H__
@@ -26,12 +24,13 @@ typedef struct complex_t {
 #define M_N 150
 #define M_K 200
 
+extern "C" {
 void complex_matmul ( 
     complex_t MatA_DRAM[M_M][M_N], 
     complex_t MatB_DRAM[M_N][M_K], 
     complex_t MatC_DRAM[M_M][M_K]
 );
-
+}
 using namespace std;
 
 #endif

@@ -1,13 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Author:      <>
 // Filename:    real_matmul.cpp
 // Description: Perform matrix multiplication with real values
-//
 // Note:        You are free to modify this code to optimize your design.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "real.h"
-
+extern "C"
+{
 void real_matmul( 
     real_t MatA_DRAM[M_M][M_N], 
     real_t MatB_DRAM[M_N][M_K], 
@@ -72,4 +71,5 @@ void real_matmul(
         }
     }
 
+}
 }

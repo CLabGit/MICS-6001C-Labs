@@ -30,11 +30,17 @@ In this part of the lab, you are **not** provided with the trivial implementatio
 
 In our HLS tutorial, for faster development, we used `Makefile` script for simulation, synthesis and program.
 
-### Step 1: C Simulation
+### Step 1: Software Emulation
 
-In `PartA` or `Part B`, go to the relevant folder and type `make csim`. After a compilation, the generated executable file is located in the `./build_hls/hls/csim/csim.exe`, and you can also run it directly to view the results.
+The kernel requires a host to declare and run, so go to the relevant folder (`PartA` or `PartB`) and type `make build TARGET=sw_emu` to create a kernel targeting `sw_emu` and compile an executable file for the host based on OpenCL API.
 
-*Important*: Please run C simulation after every change you make to your top function. Cannot stress this enough!
+Waiting for a period of time (around 30 mins), the xclbin file for the `sw_emu` will be completed. Next, use `make run TARGET=sw_emu` to run the kernel simulation. This internally runs:
+
+```
+XCL_EMULATION_MODE=sw_emu ./host_name.exe kernel_name.xclbin
+```
+*Note*: In software emulation, HLS treats your kernel as standard C code, so you can use `printf` to assist with debugging!
+*Important*: Please run software emulation after every change you make to your top function. Cannot stress this enough!
 
 ### Step 2: C Synthesis
 
@@ -48,19 +54,19 @@ We recommend using `csynth.rpt` to assess the overall latency and resource utili
 
 The kernel requires a host to declare and run, so go to the relevant folder (`PartA` or `PartB`) and type `make build TARGET=hw_emu` to create a kernel targeting `hw_emu` and compile an executable file for the host based on OpenCL API.
 
-Waiting for a period of time (around 30 mins), the xclbin file for the `hw` will be completed. Next, use `make run TARGET=hw_emu` to run the kernel on the FPGA board. This internally runs:
+Waiting for a period of time (around 30 mins), the xclbin file for the `hw_emu` will be completed. Next, use `make run TARGET=hw_emu` to run the kernel. This internally runs:
 
 ```
 XCL_EMULATION_MODE=hw_emu ./host_name.exe kernel_name.xclbin
 ```
-Harware Emulation has been an important way to debug your design, since it generates RTL from the accelerator sources and run RTL simulation along with the application layer code. Users can view simulation waveforms by enabling the following switch in the xrt.ini file. But, ensure you have X-server opened for displaying the waveforms. 
+Harware Emulation has been an important way to debug your design, since it generates RTL from the accelerator sources and run RTL simulation along with the application layer code. Users can view simulation waveforms by enabling the following switch in the `xrt.ini` file. But, ensure you have `X-server` opened for displaying the waveforms. 
 
 ```
 [Emulation]
 debug_mode=gui
 ```
 
-### Step 3: Test on board
+### Step 4: Test on U250 board
 
 The kernel requires a host to declare and run, so go to the relevant folder (`PartA` or `PartB`) and type `make build` to create a kernel targeting `hw` and compile an executable file for the host based on OpenCL API.
 

@@ -1,14 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Author:      <>
-// Course:      ECE8893 - Parallel Programming for FPGAs
 // Filename:    complex_matmul.cpp
 // Description: Perform matrix multiplication with complex values
-//
 // Note:        You are free to modify this code to implement your design.
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "complex.h"
 
+extern "C" {
 void complex_matmul(
     complex_t MatA_DRAM[M_M][M_N], 
     complex_t MatB_DRAM[M_N][M_K], 
@@ -80,4 +78,5 @@ void complex_matmul(
             MatC_DRAM[i][j] = MatC[i][j];
         }
     }
+}
 }
