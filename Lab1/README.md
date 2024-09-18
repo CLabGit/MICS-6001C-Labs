@@ -40,6 +40,7 @@ Waiting for a period of time (around 30 mins), the xclbin file for the `sw_emu` 
 XCL_EMULATION_MODE=sw_emu ./host_name.exe kernel_name.xclbin
 ```
 *Note*: In software emulation, HLS treats your kernel as standard C code, so you can use `printf` to assist with debugging!
+
 *Important*: Please run software emulation after every change you make to your top function. Cannot stress this enough!
 
 ### Step 2: C Synthesis
@@ -68,9 +69,9 @@ debug_mode=gui
 
 ### Step 4: Test on U250 board
 
-The kernel requires a host to declare and run, so go to the relevant folder (`PartA` or `PartB`) and type `make build` to create a kernel targeting `hw` and compile an executable file for the host based on OpenCL API.
+The kernel requires a host to declare and run, so go to the relevant folder (`PartA` or `PartB`) and type `make build TARGET=hw` to create a kernel targeting `hw` and compile an executable file for the host based on OpenCL API.
 
-Waiting for a period of time (possibly 1-3 hours), the xclbin file for the `hw` will be completed. Next, use `make run` to run the kernel on the FPGA board. This internally runs:
+Waiting for a period of time (possibly 1-3 hours), the xclbin file for the `hw` will be completed. Next, use `make run TARGET=hw` to run the kernel on the FPGA board. This internally runs:
 
 ```
 ./host_name.exe kernel_name.xclbin
