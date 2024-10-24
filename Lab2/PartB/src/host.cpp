@@ -108,15 +108,12 @@ int main(int argc, char** argv) {
     long double mse = 0.0;
     for(int f = 0; f < 64; f++) {
         for(int i = 0; i < 368; i++) {
-            std::cout << conv_layer_golden_output_feature_map[f][i][0] << " " << fixp_conv_layer_output_feature_map[f][i][0] << " " << f << " " << i << std::endl;
             for(int j = 0; j < 640; j++) {
                 mse += std::pow((conv_layer_golden_output_feature_map[f][i][j] 
                                  -(float) fixp_conv_layer_output_feature_map[f][i][j]), 2);
             }
         }
     }
-    std::cout << conv_layer_golden_output_feature_map[0][125][480] << " " << fixp_conv_layer_output_feature_map[0][125][480] << std::endl;
-    std::cout << conv_layer_golden_output_feature_map[63][367][0] << " " << fixp_conv_layer_output_feature_map[63][367][0] << std::endl;
     mse = mse / (64 * 368 * 640);
 
     std::cout << "\nOutput MSE:  " << mse << std::endl;

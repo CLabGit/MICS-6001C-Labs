@@ -51,9 +51,9 @@ int main(int argc, char** argv) {
     complex_t* MatC_expected = new complex_t[M_M * M_K];
 
     std::cout << "Loading input matrices and expected output matrix\n";
-    loadMatrix("MatA.txt", M_M, M_N, MatA_tb);
-    loadMatrix("MatB.txt", M_N, M_K, MatB_tb);
-    loadMatrix("MatC.txt", M_M, M_K, MatC_expected);
+    loadMatrix("./data/MatA.txt", M_M, M_N, MatA_tb);
+    loadMatrix("./data/MatB.txt", M_N, M_K, MatB_tb);
+    loadMatrix("./data/MatC.txt", M_M, M_K, MatC_expected);
 
     std::cout << "Copy data to device\n";
     q.enqueueWriteBuffer(a_to_device, CL_TRUE, 0, matrix_a_size_bytes, MatA_tb);
