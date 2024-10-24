@@ -8,22 +8,28 @@ include ./utils.mk
 CURRENT_DIR := $(shell pwd)
 ROOT_DIR := $(abspath $(CURRENT_DIR)/../..)
 COMMON_DIR := $(ROOT_DIR)/common
+
 TEMP_DIR := ./_x.$(TARGET).$(XSA)
 BUILD_DIR := ./build_dir.$(TARGET).$(XSA)
 KERNEL_BUILD_DIR := ./build_hls
-LINK_OUTPUT := $(BUILD_DIR)/real_matmul.link.xclbin
+
+LINK_OUTPUT := $(BUILD_DIR)/tiling_convolution.link.xclbin
 PACKAGE_OUT = ./package.$(TARGET)
+
 CXXFLAGS += -I$(COMMON_DIR)  -I$(XILINX_XRT)/include/CL
+
 VPP_PFLAGS := 
-CMD_ARGS = $(BUILD_DIR)/real_matmul.xclbin
+CMD_ARGS = $(BUILD_DIR)/tiling_convolution.xclbin
 CXXFLAGS += -I$(XILINX_XRT)/include -I$(XILINX_VIVADO)/include -I$(XILINX_HLS)/include -Wall -O0 -g -std=c++1y
 LDFLAGS += -L$(XILINX_XRT)/lib -pthread -lOpenCL
 
 ########################## Checking if PLATFORM in allowlist #######################
 PLATFORM_BLOCKLIST += nodma 
 ############################## Setting up Host Variables ##############################
+# Kernel Source   
+KERNEL_SRCS += ./src/tiled_conv.cpp ./src/conv_7x7.cpp ./src/utils.cpp
 
-# Include Required Host Source Files
+# Host Source
 HOST_SRCS += $(COMMON_DIR)/xilinx_ocl_helper.cpp
 HOST_SRCS += ./src/host.cpp
 
@@ -33,25 +39,25 @@ LDFLAGS += -lrt -lstdc++
 LDFLAGS += -luuid -lxrt_coreutil 
 LDFLAGS += -lxrt_core
 
+
 ############################## Setting up Kernel Variables ##############################
 # Kernel compiler global settings
 VPP_FLAGS += --save-temps 
-EXECUTABLE = ./real_matmul
+EXECUTABLE = ./tiling_convolution
 EMCONFIG_DIR = $(TEMP_DIR)
 
 ############################## Setting Targets ##############################
 .PHONY: all clean cleanall docs emconfig
-all: check-platform   check-vitis $(EXECUTABLE) $(BUILD_DIR)/real_matmul.xclbin emconfig
+all: check-platform check-device check-vitis $(EXECUTABLE) $(BUILD_DIR)/tiling_convolution.xclbin emconfig
 
 .PHONY: host
 host: $(EXECUTABLE)
 
 .PHONY: build
-build: check-vitis   $(BUILD_DIR)/real_matmul.xclbin
+build: check-vitis check-device $(BUILD_DIR)/tiling_convolution.xclbin
 
 .PHONY: xclbin
 xclbin: build
-
 ############################### Csim and Csynth #######################################
 
 .PHONY: csim
@@ -65,14 +71,14 @@ csynth:
 	v++ -c --mode hls --config ./hls_config.cfg --work_dir $(KERNEL_BUILD_DIR)
 
 ############################## Setting Rules for Binary Containers (Building Kernels) ##############################
-$(TEMP_DIR)/real_matmul.xo: src/real_matmul.cpp
+$(TEMP_DIR)/tiling_convolution.xo: $(KERNEL_SRCS)
 	mkdir -p $(TEMP_DIR)
-	v++ -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k real_matmul --temp_dir $(TEMP_DIR)  -I'$(<D)' -o'$@' '$<'
+	v++ -c $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) -k tiled_conv --temp_dir $(TEMP_DIR) -I'$(<D)' -o'$@' $^ 
 
-$(BUILD_DIR)/real_matmul.xclbin: $(TEMP_DIR)/real_matmul.xo
+$(BUILD_DIR)/tiling_convolution.xclbin: $(TEMP_DIR)/tiling_convolution.xo
 	mkdir -p $(BUILD_DIR)
 	v++ -l $(VPP_FLAGS) $(VPP_LDFLAGS) -t $(TARGET) --platform $(PLATFORM) --temp_dir $(TEMP_DIR) -o'$(LINK_OUTPUT)' $(+)
-	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/real_matmul.xclbin
+	v++ -p $(LINK_OUTPUT) $(VPP_FLAGS) -t $(TARGET) --platform $(PLATFORM) --package.out_dir $(PACKAGE_OUT) -o $(BUILD_DIR)/tiling_convolution.xclbin
 
 ############################## Setting Rules for Host (Building Host Executable) ##############################
 $(EXECUTABLE): $(HOST_SRCS) | check-xrt
@@ -111,3 +117,4 @@ cleanall: clean
 	-$(RMDIR) package.* .ipcache *.json
 	-$(RMDIR) _x* *xclbin.run_summary qemu-memory-_* emulation _vimage pl* start_simulation.sh *.xclbin
 	-$(RMDIR) *.compile_summary *.ltx *.info *.link_summary *.package_summary *.xo
+
