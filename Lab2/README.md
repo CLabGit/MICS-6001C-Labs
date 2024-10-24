@@ -52,7 +52,7 @@ To address the challenges that come with scalability (such as large input size),
 In this part of the lab, you have to implement an unoptimized but synthesizable code that performs tiling-based convolution of the first 7 x 7 layer of ResNet-50 with HD input image. You are provided with a host file which reads the input image, layer parameters, as well the reference output feature map and performs a point-to-comparison with the obtained feature map. Mean Squared Error (MSE) is used as the metric for evaluation.
 
 - ```bin/``` contains the reference binary files
-- ```sim.cpp``` is the testbench that checks for functional correctness of your tiling-based convolution. 
+- ```host.cpp``` checks for functional correctness of your tiling-based convolution. 
 - ```tiled_conv.cpp``` is the top-level design that you will synthesize after implementing the convolution operation.
 - ```utils.cpp``` has utility functions to assist you with loading and storing of data. You can modify these functions as required or add any new ones for your design.
 - ```conv_7x7.cpp``` is the convolution engine that performs 7 x 7 convolution for a single tile.
