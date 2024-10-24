@@ -114,7 +114,7 @@ The way to run the code is the same as Lab1, please refer to `Lab1/README.md`.
 ## Submission Deadline
 Submission: on Canvas for course students, via email (to TA) for Special Problems students.
 
-Due date for Part A: **Nov. 19, 11:59 PM, no extension**. 
+Due date: **Nov. 19, 11:59 PM, no extension**. 
 
 
 ## Acknowledgements
