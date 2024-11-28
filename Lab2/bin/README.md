@@ -1,6 +1,6 @@
 ## IMPORTANT INFORMATION
 
-You need the 4 binary files in Lab 2:
+You need 4 binary files in Lab 2:
 - *conv_input.bin* - Input 736 x 1280 (HD) RGB image
 - *conv_weights.bin* - Convolution layer weights
 - *conv_bias.bin* - Convolution layer bias
