@@ -1,11 +1,11 @@
-# MICS 6001C - Custom Computing with FPGAs, Fall 2024
+# MICS 6001C - Custom Computing with FPGAs
 
 This repository contains lab materials for the MICS 6001C Custom Computing with FPGAs at HKUST(GZ).
 
 
 ## Access the U250 FPGA server
 
-Firstly, access the server via SSH (in compus only).
+Firstly, access the server via SSH (on campus only).
 
 ```
 ssh yourfirstname@10.92.254.206 
