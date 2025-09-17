@@ -2,19 +2,8 @@
 
 This repository contains lab materials for the MICS 6001C Custom Computing with FPGAs at HKUST(GZ).
 
+For Assignment 1, you need to complete the task of **Optimize the performance of the vector-matrix multiplication (GEMV) unit** in the `Lab1` folder on the `main` branch.
 
-## Access the U250 FPGA server
+For Assignment 2, you need to complete the task of **Integrate the optimized GEMV unit into the Tiny-Llama, implementing hardware reuse for the QKVO and FFN linear projection layers**, referencing the `llama2-7B-baseline` branch.
 
-Firstly, access the server via SSH (on campus only).
-
-```
-ssh yourfirstname@10.92.254.206 
-// Initial password is 1qaz@WSX 
-// Please change your password after logging in
-```
-
-Then, setup Vitis and XRT environment.
-```
-source /opt/Xilinx/Vitis/2024.1/settings64.sh
-source /opt/xilinx/xrt/setup.sh
-```
+In addition, for the group project, you need to modify the code on the `llama2-7B-baseline` branch to implement your functionality.
